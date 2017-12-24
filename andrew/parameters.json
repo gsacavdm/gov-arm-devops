@@ -1,0 +1,288 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "extensions_IaaSDiagnostics_xmlCfg": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_storageAccountName": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_storageAccountKey": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_storageAccountEndPoint": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_xmlCfg_1": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_storageAccountName_1": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_storageAccountKey_1": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_storageAccountEndPoint_1": {
+            "value": null
+        },
+        "extensions_Microsoft.Insights.VMDiagnosticsSettings_storageAccountName": {
+            "value": null
+        },
+        "extensions_Microsoft.Insights.VMDiagnosticsSettings_storageAccountKey": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_xmlCfg_2": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_storageAccountName_2": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_storageAccountKey_2": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_storageAccountEndPoint_2": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_xmlCfg_3": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_storageAccountName_3": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_storageAccountKey_3": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_storageAccountEndPoint_3": {
+            "value": null
+        },
+        "extensions_Microsoft.Insights.VMDiagnosticsSettings_storageAccountName_1": {
+            "value": null
+        },
+        "extensions_Microsoft.Insights.VMDiagnosticsSettings_storageAccountKey_1": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_xmlCfg_4": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_storageAccountName_4": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_storageAccountKey_4": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_storageAccountEndPoint_4": {
+            "value": null
+        },
+        "virtualMachines_dc01_name": {
+            "value": null
+        },
+        "virtualMachines_dc02_name": {
+            "value": null
+        },
+        "availabilitySets_DCAS_name": {
+            "value": null
+        },
+        "virtualMachines_tfs01_name": {
+            "value": null
+        },
+        "availabilitySets_TFSAS_name": {
+            "value": null
+        },
+        "loadBalancers_frontendlb_name": {
+            "value": null
+        },
+        "networkInterfaces_dc0193_name": {
+            "value": null
+        },
+        "virtualMachines_jumpbox01_name": {
+            "value": null
+        },
+        "loadBalancers_midtierlb01_name": {
+            "value": null
+        },
+        "networkInterfaces_dc02455_name": {
+            "value": null
+        },
+        "publicIPAddresses_dc01_ip_name": {
+            "value": null
+        },
+        "publicIPAddresses_dc02_ip_name": {
+            "value": null
+        },
+        "virtualNetworks_vencorerg_name": {
+            "value": null
+        },
+        "availabilitySets_JENKINSAS_name": {
+            "value": null
+        },
+        "virtualMachines_jbosseap01_name": {
+            "value": null
+        },
+        "virtualMachines_oracledb01_name": {
+            "value": null
+        },
+        "networkInterfaces_tfs01306_name": {
+            "value": null
+        },
+        "publicIPAddresses_tfs01_ip_name": {
+            "value": null
+        },
+        "availabilitySets_JBOSSEAPAS_name": {
+            "value": null
+        },
+        "availabilitySets_ORACLEDBAS_name": {
+            "value": null
+        },
+        "publicIPAddresses_ERGATEWAY_name": {
+            "value": null
+        },
+        "networkSecurityGroups_dmznsg_name": {
+            "value": null
+        },
+        "publicIPAddresses_frontendlb_name": {
+            "value": null
+        },
+        "networkInterfaces_jumpbox01921_name": {
+            "value": null
+        },
+        "publicIPAddresses_jumpbox01_ip_name": {
+            "value": null
+        },
+        "virtualMachines_jenkinsmaster01_name": {
+            "value": null
+        },
+        "networkInterfaces_jbosseap01602_name": {
+            "value": null
+        },
+        "networkInterfaces_oracledb01819_name": {
+            "value": null
+        },
+        "publicIPAddresses_jbosseap01_ip_name": {
+            "value": null
+        },
+        "publicIPAddresses_oracledb01_ip_name": {
+            "value": null
+        },
+        "networkSecurityGroups_almtiernsg_name": {
+            "value": null
+        },
+        "networkSecurityGroups_midtiernsg_name": {
+            "value": null
+        },
+        "virtualNetworkGateways_ERGATEWAY_name": {
+            "value": null
+        },
+        "networkSecurityGroups_datatiernsg_name": {
+            "value": null
+        },
+        "storageAccounts_vencorerg01diag181_name": {
+            "value": null
+        },
+        "networkSecurityGroups_managementnsg_name": {
+            "value": null
+        },
+        "schedules_shutdown_computevm_dc01_name": {
+            "value": null
+        },
+        "schedules_shutdown_computevm_dc02_name": {
+            "value": null
+        },
+        "networkInterfaces_jenkinsmaster01265_name": {
+            "value": null
+        },
+        "publicIPAddresses_jenkinsmaster01_ip_name": {
+            "value": null
+        },
+        "subnets_DMZ_name": {
+            "value": null
+        },
+        "vaults_vencorerecoveryvault01_name": {
+            "value": null
+        },
+        "schedules_shutdown_computevm_jumpbox01_name": {
+            "value": null
+        },
+        "schedules_shutdown_computevm_oracledb01_name": {
+            "value": null
+        },
+        "schedules_shutdown_computevm_jbosseap01_name": {
+            "value": null
+        },
+        "schedules_shutdown_computevm_jenkinsmaster01_name": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_name": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_name_1": {
+            "value": null
+        },
+        "subnets_midtiersubnet_name": {
+            "value": null
+        },
+        "subnets_almtiersubnet_name": {
+            "value": null
+        },
+        "subnets_GatewaySubnet_name": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_name_2": {
+            "value": null
+        },
+        "subnets_datatiersubnet_name": {
+            "value": null
+        },
+        "subnets_managementsubnet_name": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_name_3": {
+            "value": null
+        },
+        "extensions_IaaSDiagnostics_name_4": {
+            "value": null
+        },
+        "extensions_Microsoft.Insights.VMDiagnosticsSettings_name": {
+            "value": null
+        },
+        "extensions_Microsoft.Insights.VMDiagnosticsSettings_name_1": {
+            "value": null
+        },
+        "virtualMachines_dc01_id": {
+            "value": null
+        },
+        "virtualMachines_dc01_id_1": {
+            "value": null
+        },
+        "virtualMachines_dc02_id": {
+            "value": null
+        },
+        "virtualMachines_dc02_id_1": {
+            "value": null
+        },
+        "virtualMachines_jbosseap01_id": {
+            "value": null
+        },
+        "virtualMachines_jenkinsmaster01_id": {
+            "value": null
+        },
+        "virtualMachines_jenkinsmaster01_id_1": {
+            "value": null
+        },
+        "virtualMachines_jumpbox01_id": {
+            "value": null
+        },
+        "virtualMachines_oracledb01_id": {
+            "value": null
+        },
+        "virtualMachines_oracledb01_id_1": {
+            "value": null
+        },
+        "virtualMachines_tfs01_id": {
+            "value": null
+        },
+        "virtualMachines_tfs01_id_1": {
+            "value": null
+        }
+    }
+}

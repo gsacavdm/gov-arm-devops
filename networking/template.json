@@ -16,7 +16,6 @@
     "subnetMiddleTierName": "[concat(parameters('naming_prefix'),'-subnet-mt')]",
     "subnetMiddleTierAddressPrefix": "10.0.1.0/24",
     "nsgMiddleTierName": "[concat(parameters('naming_prefix'),'-nsg-mt')]",
-    "lbMiddleTierName": "[concat(parameters('naming_prefix'),'-lb-mt')]",
     "subnetDataTierName": "[concat(parameters('naming_prefix'),'-subnet-dt')]",
     "subnetDataTierAddressPrefix": "10.0.2.0/24",
     "nsgDataTierName": "[concat(parameters('naming_prefix'),'-nsg-dt')]",

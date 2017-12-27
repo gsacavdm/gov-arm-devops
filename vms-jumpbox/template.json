@@ -1,0 +1,163 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "naming_prefix": {
+      "defaultValue": "contoso",
+      "type": "string"
+    },
+    "vmAdminUserName": {
+      "defaultValue": "contosoAdmin",
+      "type": "string"
+    },
+    "vmAdminPassword": {
+      "type": "securestring"
+    },
+    "vnetMainName": {
+      "defaultValue": "contoso-vnet-main",
+      "type": "string"
+    },
+    "subnetMgmtName": {
+      "defaultValue": "contoso-subnet-mgmt",
+      "type": "string"
+    }
+  },
+  "variables": {
+    "vnetMainName": "[parameters('vnetMainName')]",
+    "subnetMgmtName": "[parameters('subnetMgmtName')]",
+    "vmJumpboxName": "[concat(parameters('naming_prefix'),'-vm-jumpbox')]",
+    "vmJumpboxComputerName": "[concat(parameters('naming_prefix'),'vmjbox')]",
+    "vmJumpboxSize": "Standard_DS3_v2",
+    "vmJumpboxOsDiskName": "[concat(variables('vmJumpboxName'),'-osdisk')]",
+    "vmJumpboxOsDiskSize": 128,
+    "vmJumpboxImagePublisher": "MicrosoftWindowsServer",
+    "vmJumpboxImageOffer": "WindowsServer",
+    "vmJumpboxImageSku": "2012-R2-Datacenter",
+    "vmJumpboxImageVersion": "latest",
+    "niJumpboxName": "[concat(parameters('naming_prefix'),'-ni-jumpbox')]",
+    "ipJumpboxName": "[concat(parameters('naming_prefix'),'-ip-jumpbox')]",
+    "ipJumpboxAddress": "10.0.4.4",
+    "pipJumpboxName" : "[concat(parameters('naming_prefix'),'-pip-jumpbox')]",
+    "saVmDiagnosticsName": "[concat(parameters('naming_prefix'), 'vmdiagnostics')]"
+  },
+  "resources": [
+    {
+      "comments": "",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[variables('vmJumpboxName')]",
+      "apiVersion": "2017-03-30",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('vmJumpboxSize')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('vmJumpboxImagePublisher')]",
+            "offer": "[variables('vmJumpboxImageOffer')]",
+            "sku": "[variables('vmJumpboxImageSku')]",
+            "version": "[variables('vmJumpboxImageVersion')]"
+          },
+          "osDisk": {
+            "osType": "Windows",
+            "name": "[variables('vmJumpboxOsDiskName')]",
+            "createOption": "FromImage",
+            "caching": "ReadWrite",
+            "diskSizeGB": "[variables('vmJumpboxOsDiskSize')]"
+          },
+          "dataDisks": []
+        },
+        "osProfile": {
+          "computerName": "[variables('vmJumpboxComputerName')]",
+          "adminUsername": "[parameters('vmAdminUsername')]",
+          "adminPassword": "[parameters('vmAdminPassword')]",
+          "windowsConfiguration": {
+            "provisionVMAgent": true,
+            "enableAutomaticUpdates": true
+          },
+          "secrets": []
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('niJumpboxName'))]"
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": true,
+            "storageUri": "[reference(concat('Microsoft.Storage/storageAccounts/', variables('saVmDiagnosticsName')), '2016-01-01').primaryEndpoints.blob]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('niJumpboxName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('saVmDiagnosticsName'))]"
+      ]
+    },
+    {
+      "comments": "",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('niJumpboxName')]",
+      "apiVersion": "2017-06-01",
+      "location": "[resourceGroup().location]",
+      "scale": null,
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "[variables('ipJumpboxName')]",
+            "properties": {
+              "privateIPAddress": "[variables('ipJumpboxAddress')]",
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('pipJumpboxName'))]"
+              },
+              "subnet": {
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetMainName'), variables('subnetMgmtName'))]"
+              },
+              "primary": true,
+              "privateIPAddressVersion": "IPv4"
+            }
+          }
+        ],
+        "dnsSettings": {},
+        "macAddress": "00-0D-3A-03-90-62",
+        "enableAcceleratedNetworking": false,
+        "enableIPForwarding": false,
+        "primary": true
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', variables('pipJumpboxName'))]"
+      ]
+    },
+    {
+      "comments": "",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[variables('pipJumpboxName')]",
+      "apiVersion": "2017-06-01",
+      "location": "[resourceGroup().location]",
+      "properties": {
+          "publicIPAddressVersion": "IPv4",
+          "publicIPAllocationMethod": "Dynamic",
+          "idleTimeoutInMinutes": 4
+      },
+      "dependsOn": []
+  },
+    {
+      "comments": "",
+      "type": "Microsoft.Storage/storageAccounts",
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "kind": "Storage",
+      "name": "[variables('saVmDiagnosticsName')]",
+      "apiVersion": "2016-01-01",
+      "location": "[resourceGroup().location]",
+      "tags": {},
+      "properties": {},
+      "dependsOn": []
+    }
+  ]
+}

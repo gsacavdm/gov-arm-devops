@@ -9,7 +9,6 @@ Sets up the following:
   * Network Interfaces
   * Diagnostics Storage Account
   * Availability Set
-  * Public IP Address
   * Schedule - Not available in Azure Gov, replaced with Azure Automation
 
 * Jenkins Slave VM

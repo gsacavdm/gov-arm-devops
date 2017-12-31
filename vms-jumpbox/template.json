@@ -20,6 +20,14 @@
     "subnetMgmtName": {
       "defaultValue": "contoso-subnet-mgmt",
       "type": "string"
+    },
+    "logAnalyticsWorkspaceId": {
+      "defaultValue": "",
+      "type": "string"
+    },
+    "logAnalyticsWorkspaceKey": {
+      "defaultValue": "",
+      "type": "securestring"
     }
   },
   "variables": {
@@ -37,8 +45,14 @@
     "niJumpboxName": "[concat(parameters('naming_prefix'),'-ni-jumpbox')]",
     "ipJumpboxName": "[concat(parameters('naming_prefix'),'-ip-jumpbox')]",
     "ipJumpboxAddress": "10.0.4.4",
-    "pipJumpboxName" : "[concat(parameters('naming_prefix'),'-pip-jumpbox')]",
-    "saVmDiagnosticsName": "[concat(parameters('naming_prefix'), 'vmdiagnostics')]"
+    "pipJumpboxName": "[concat(parameters('naming_prefix'),'-pip-jumpbox')]",
+    "saVmDiagnosticsName": "[concat(parameters('naming_prefix'), 'vmdiagnostics')]",
+    "wadlogs": "<WadCfg> <DiagnosticMonitorConfiguration overallQuotaInMB=\"4096\" xmlns=\"http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration\"> <DiagnosticInfrastructureLogs scheduledTransferLogLevelFilter=\"Error\"/> <WindowsEventLog scheduledTransferPeriod=\"PT1M\" > <DataSource name=\"Application!*[System[(Level = 1 or Level = 2)]]\" /> <DataSource name=\"Security!*[System[(Level = 1 or Level = 2)]]\" /> <DataSource name=\"System!*[System[(Level = 1 or Level = 2)]]\" /></WindowsEventLog>",
+    "wadperfcounters1": "<PerformanceCounters scheduledTransferPeriod=\"PT1M\"><PerformanceCounterConfiguration counterSpecifier=\"\\Processor(_Total)\\% Processor Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"CPU utilization\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Processor(_Total)\\% Privileged Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"CPU privileged time\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Processor(_Total)\\% User Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"CPU user time\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Processor Information(_Total)\\Processor Frequency\" sampleRate=\"PT15S\" unit=\"Count\"><annotation displayName=\"CPU frequency\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\System\\Processes\" sampleRate=\"PT15S\" unit=\"Count\"><annotation displayName=\"Processes\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Process(_Total)\\Thread Count\" sampleRate=\"PT15S\" unit=\"Count\"><annotation displayName=\"Threads\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Process(_Total)\\Handle Count\" sampleRate=\"PT15S\" unit=\"Count\"><annotation displayName=\"Handles\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Memory\\% Committed Bytes In Use\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"Memory usage\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Memory\\Available Bytes\" sampleRate=\"PT15S\" unit=\"Bytes\"><annotation displayName=\"Memory available\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Memory\\Committed Bytes\" sampleRate=\"PT15S\" unit=\"Bytes\"><annotation displayName=\"Memory committed\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Memory\\Commit Limit\" sampleRate=\"PT15S\" unit=\"Bytes\"><annotation displayName=\"Memory commit limit\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\% Disk Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"Disk active time\" locale=\"en-us\"/></PerformanceCounterConfiguration>",
+    "wadperfcounters2": "<PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\% Disk Read Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"Disk active read time\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\% Disk Write Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"Disk active write time\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Transfers/sec\" sampleRate=\"PT15S\" unit=\"CountPerSecond\"><annotation displayName=\"Disk operations\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Reads/sec\" sampleRate=\"PT15S\" unit=\"CountPerSecond\"><annotation displayName=\"Disk read operations\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Writes/sec\" sampleRate=\"PT15S\" unit=\"CountPerSecond\"><annotation displayName=\"Disk write operations\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Bytes/sec\" sampleRate=\"PT15S\" unit=\"BytesPerSecond\"><annotation displayName=\"Disk speed\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Read Bytes/sec\" sampleRate=\"PT15S\" unit=\"BytesPerSecond\"><annotation displayName=\"Disk read speed\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Write Bytes/sec\" sampleRate=\"PT15S\" unit=\"BytesPerSecond\"><annotation displayName=\"Disk write speed\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\LogicalDisk(_Total)\\% Free Space\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"Disk free space (percentage)\" locale=\"en-us\"/></PerformanceCounterConfiguration></PerformanceCounters>",
+    "wadcfgxstart": "[concat(variables('wadlogs'), variables('wadperfcounters1'), variables('wadperfcounters2'), '<Metrics resourceId=\"')]",
+    "wadmetricsresourceid": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name , '/providers/', 'Microsoft.Compute/virtualMachines/')]",
+    "wadcfgxend": "\"><MetricAggregation scheduledTransferPeriod=\"PT1H\"/><MetricAggregation scheduledTransferPeriod=\"PT1M\"/></Metrics></DiagnosticMonitorConfiguration></WadCfg>"
   },
   "resources": [
     {
@@ -138,13 +152,14 @@
       "apiVersion": "2017-06-01",
       "location": "[resourceGroup().location]",
       "properties": {
-          "publicIPAddressVersion": "IPv4",
-          "publicIPAllocationMethod": "Dynamic",
-          "idleTimeoutInMinutes": 4
+        "publicIPAddressVersion": "IPv4",
+        "publicIPAllocationMethod": "Dynamic",
+        "idleTimeoutInMinutes": 4
       },
       "dependsOn": []
-  },
+    },
     {
+      "apiVersion": "2017-10-01",
       "comments": "",
       "type": "Microsoft.Storage/storageAccounts",
       "sku": {
@@ -153,11 +168,78 @@
       },
       "kind": "Storage",
       "name": "[variables('saVmDiagnosticsName')]",
-      "apiVersion": "2016-01-01",
       "location": "[resourceGroup().location]",
       "tags": {},
       "properties": {},
       "dependsOn": []
+    },
+    {
+      "apiVersion": "2017-03-30",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmJumpboxName'), '/disable-ie-esc')]",
+      "location": "[resourceGroup().location]",
+      "tags": {},
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.4",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/gsacavdm/gov-arm-devops/master/vms-jumpbox/scripts/diable-ie-esc.ps1"
+          ],
+          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File disable-ie-esc.ps1')]"
+        }
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmJumpboxName'))]"
+      ]
+    },
+    {
+      "comments": "",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmJumpboxName'), '/Microsoft.Insights.VMDiagnosticsSettings')]",
+      "apiVersion": "2017-03-30",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "publisher": "Microsoft.Azure.Diagnostics",
+        "type": "IaaSDiagnostics",
+        "typeHandlerVersion": "1.11",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "StorageAccount": "[variables('saVmDiagnosticsName')]",
+          "xmlCfg": "[concat(variables('wadcfgxstart'), variables('wadmetricsresourceid'), variables('vmJumpboxName'), variables('wadcfgxend'))]"
+        },
+        "protectedSettings": {
+          "storageAccountName": "[resourceId('Microsoft.Storage/storageAccounts', variables('saVmDiagnosticsName')]",
+          "storageAccountKey": "[listKeys(variables('saVmDiagnosticsName')), '2016-01-01')].key1",
+          "storageAccountEndPoint": "[reference(concat('Microsoft.Storage/storageAccounts/', variables('saVmDiagnosticsName')), '2016-01-01').primaryEndpoints.blob]"
+        }
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmJumpboxName'))]"
+      ]
+    },
+    {
+      "apiVersion": "2017-03-30",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmJumpboxName'), '/oms-extension')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "publisher": "Microsoft.EnterpriseCloud.Monitoring",
+        "type": "MicrosoftMonitoringAgent",
+        "typeHandlerVersion": "1.0",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "workspaceId": "parameters('logAnalyticsWorkspaceId')"
+        },
+        "protectedSettings": {
+          "workspaceKey": "parameters('logAnalyticsWorkspaceKey')"
+        }
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmJumpboxName'))]"
+      ]
     }
   ]
 }

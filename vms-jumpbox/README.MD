@@ -36,4 +36,3 @@ All resources are created in the same location as the resource group they are co
 * Add support for resources in different resources groups
 * Convert variables to objects and hardcode variables that are used only once
 * Add support for multiple VMs through `copy` and `copyIndex()`
-* Implement NSG rules via `copy` and object variables.

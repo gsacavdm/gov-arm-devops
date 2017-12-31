@@ -24,3 +24,7 @@ All resources are created in the same location as the resource group they are co
 ## Other Notes
 * Hardcoded to disk type (Windows/Linux) given osProfile.(Windows/Linux)Configuration
 * VM Computer Names don't use the prefix given naming constraints
+
+## Outstanding Items
+* Add other ALM VMs
+* Add other goodness implemented in Jumpbox VM (e.g. extensions)

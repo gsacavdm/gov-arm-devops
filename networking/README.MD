@@ -14,3 +14,6 @@ This template only has 1 parameter: `naming_prefix`. This parameter is used to a
 
 ## Assumptions
 All resources are created in the same location as the resource group they are contained in.
+
+## Outstanding Items
+* Implement NSG rules via `copy` and object variables.

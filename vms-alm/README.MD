@@ -23,6 +23,4 @@ All resources are created in the same location as the resource group they are co
 
 ## Other Notes
 * Hardcoded to disk type (Windows/Linux) given osProfile.(Windows/Linux)Configuration
-* Reference for Boot Diagnostics Storage accounts
-* Enable other Diagnostics?
 * VM Computer Names don't use the prefix given naming constraints

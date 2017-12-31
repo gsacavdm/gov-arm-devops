@@ -186,7 +186,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/gsacavdm/gov-arm-devops/master/vms-jumpbox/scripts/diable-ie-esc.ps1"
+            "https://raw.githubusercontent.com/gsacavdm/gov-arm-devops/master/vms-jumpbox/disable-ie-esc.ps1"
           ],
           "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File disable-ie-esc.ps1')]"
         }
@@ -204,14 +204,14 @@
       "properties": {
         "publisher": "Microsoft.Azure.Diagnostics",
         "type": "IaaSDiagnostics",
-        "typeHandlerVersion": "1.11",
+        "typeHandlerVersion": "1.9",
         "autoUpgradeMinorVersion": true,
         "settings": {
           "StorageAccount": "[variables('saVmDiagnosticsName')]",
           "xmlCfg": "[concat(variables('wadcfgxstart'), variables('wadmetricsresourceid'), variables('vmJumpboxName'), variables('wadcfgxend'))]"
         },
         "protectedSettings": {
-          "storageAccountName": "[resourceId('Microsoft.Storage/storageAccounts', variables('saVmDiagnosticsName')]",
+          "storageAccountName": "[resourceId('Microsoft.Storage/storageAccounts', variables('saVmDiagnosticsName'))]",
           "storageAccountKey": "[listKeys(variables('saVmDiagnosticsName')), '2016-01-01')].key1",
           "storageAccountEndPoint": "[reference(concat('Microsoft.Storage/storageAccounts/', variables('saVmDiagnosticsName')), '2016-01-01').primaryEndpoints.blob]"
         }
@@ -231,10 +231,10 @@
         "typeHandlerVersion": "1.0",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "workspaceId": "parameters('logAnalyticsWorkspaceId')"
+          "workspaceId": "[parameters('logAnalyticsWorkspaceId')]"
         },
         "protectedSettings": {
-          "workspaceKey": "parameters('logAnalyticsWorkspaceKey')"
+          "workspaceKey": "[parameters('logAnalyticsWorkspaceKey')]"
         }
       },
       "dependsOn": [

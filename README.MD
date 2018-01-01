@@ -1,6 +1,6 @@
 # Architecture Overview
 
-* [Networking](/networking/README.md)
+* [Networking](/networking/README.MD)
   * Main VNet
     * DMZ Subnet & NSG
     * Middle Tier Subnet & NSG
@@ -8,23 +8,23 @@
     * Data Tier Subnet & NSG
     * Management Tier Subnet & NSG
 
-* [Shared](/shared/README.md)
+* [Shared](/shared/README.MD)
   * LogAnalytics
   * Azure Automation
   
-* [AD](/vms-ad/README.md)
+* [AD](/vms-ad/README.MD)
   * DC 1 VM
   * DC 2 VM
 
-* [ALM](/vms-alm/README.md)
+* [ALM](/vms-alm/README.MD)
   * TFS Service VM
   * TFS Database VM
   * Jenkins Master VM
   * Jenkins Artifactory VM
 
-* [Jumpbox](/vms-jumpbox/README.md)
+* [Jumpbox](/vms-jumpbox/README.MD)
 
-* [App4](/vms-app4/README.md)
+* [App4](/vms-app4/README.MD)
   * Middle-Tier JBoss EAP VM
   * Oracle Database VM
 

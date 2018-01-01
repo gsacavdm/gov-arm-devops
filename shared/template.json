@@ -1,10 +1,17 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {},
+  "parameters": {
+    "naming_prefix": {
+      "defaultValue": "contoso",
+      "type": "string"
+    }
+  },
   "variables": {
-    "aaName" : "",
-    "rbAutoShutdownName" : ""
+    "aaName": "[concat(parameters('naming_prefix'),'-automation')]",
+    "rbAutoShutdownName": "[concat(parameters('naming_prefix'),'-rb-autoshutdown')]",
+    "schEndworkdayName": "[concat(parameters('naming_prefix'),'-sch-endworkday')]",
+    "jschAutShutdownEndOfWorkdayName": "[concat(parameters('naming_prefix'),'-jsch-endworkday')]"
   },
   "resources": [
     {
@@ -28,11 +35,52 @@
       "location": "[resourceGroup().location]",
       "properties": {
         "runbookType": "PowerShell",
-        "publishContentLink":{
-          "uri": ""
+        "publishedContentLink": {
+          "uri": "https://github.com/gsacavdm/gov-arm-devops/blob/master/shared/auto-shutdown.ps1"
         },
         "logVerbose": false,
         "logProgress": false
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', variables('aaName'))]"
+      ]
+    },
+    {
+      "comments": "",
+      "type": "Microsoft.Automation/automationAccounts/schedules",
+      "name": "[concat(variables('aaName'), '/', variables('schEndworkdayName'))]",
+      "apiVersion": "2015-10-31",
+      "properties": {
+        "description": "",
+        "startTime": "2018-01-01T19:00:00-05:00",
+        "expiryTime": "9999-12-31T18:59:00-05:00",
+        "isEnabled": true,
+        "interval": 1,
+        "frequency": "Day"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', variables('aaName'))]"
+      ]
+    },
+    {
+      "comments": "",
+      "type": "Microsoft.Automation/automationAccounts/jobSchedules",
+      "name": "[concat(variables('aaName'), '/', variables('jschAutShutdownEndOfWorkdayName'))]",
+      "jobScheduleId": "ea238d9c-8ed7-4a7e-b70a-2319b4a9139b",
+      "apiVersion": "2015-10-31",
+      "properties": {
+        "runbook": {
+          "name": "[variables('rbAutoShutdownName')]"
+        },
+        "schedule": {
+          "name": "[variables('schEndworkdayName')]"
+        },
+        "parameters": {
+          "Subscription": "[subscription().subscriptionId]",
+          "ResourceGroup": "[resourceGroup().name]",
+          "VmName":"contoso-vm-jumpbox",
+          "Environment": "AzureUSGovernment"
+        }
       },
       "dependsOn": [
         "[resourceId('Microsoft.Automation/automationAccounts', variables('aaName'))]"

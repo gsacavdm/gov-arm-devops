@@ -26,6 +26,7 @@ All resources are created in the same location as the resource group they are co
 * Extensions in general can be added at the root level or as child resources of VMs, opted for root level to reduce nesting.
 * Diagnostics extension gathers logs and sends them to storage account.
   * Configuration must include ResourceId.
+  * According to docs, can use XML but v1.9 assumes JSON, thus went with JSON.
   * `storageAccountEndpoint` is a reference, don't hardcode it.
   * v1.11 not available in Gov, had to use v1.9 (see [list of extension versions available in Gov](https://docs.microsoft.com/azure/azure-government/documentation-government-extension))
 * Log Analytics (aka *OMS*) extensions sends logs from Diagnostics extension to Log Analytics.
@@ -34,7 +35,6 @@ All resources are created in the same location as the resource group they are co
   * Scripts pulled from open URI. Alternatively can use storage account & storage key.
 
 ## Outstanding Items
-* Fix diagnostics extension
 * Make OMS extension conditional, install only if WorkspaceId & WorkspaceKey are provided
 * Add Azure Automation to turn off VM on schedule
 * Add Recovery Services

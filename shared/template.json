@@ -1,0 +1,42 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {},
+  "variables": {
+    "aaName" : "",
+    "rbAutoShutdownName" : ""
+  },
+  "resources": [
+    {
+      "comments": "",
+      "type": "Microsoft.Automation/automationAccounts",
+      "name": "[variables('aaName')]",
+      "apiVersion": "2015-10-31",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "sku": {
+          "name": "Basic"
+        }
+      },
+      "dependsOn": []
+    },
+    {
+      "comments": "",
+      "type": "Microsoft.Automation/automationAccounts/runbooks",
+      "name": "[concat(variables('aaName'), '/', variables('rbAutoShutdownName'))]",
+      "apiVersion": "2015-10-31",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "runbookType": "PowerShell",
+        "publishContentLink":{
+          "uri": ""
+        },
+        "logVerbose": false,
+        "logProgress": false
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', variables('aaName'))]"
+      ]
+    }
+  ]
+}

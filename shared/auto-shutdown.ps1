@@ -9,7 +9,7 @@ Param(
     [String] $VmName,
 
     [Parameter(Mandatory=$false)]
-    [String] $Environment = "AzureCloud",
+    [String] $Environment = "AzureCloud"
 )
 
 $Conn = Get-AutomationConnection -Name AzureRunAsConnection

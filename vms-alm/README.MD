@@ -11,7 +11,7 @@ Sets up the following:
   * Availability Set
   * Schedule - Not available in Azure Gov, replaced with Azure Automation
 
-* Jenkins Slave VM
+* Jenkins Artifactory VM
 * TFS Svc VM
 * TFS DB VM
 

@@ -31,11 +31,11 @@ All resources are created in the same location as the resource group they are co
   * v1.11 not available in Gov, had to use v1.9 (see [list of extension versions available in Gov](https://docs.microsoft.com/azure/azure-government/documentation-government-extension))
 * Log Analytics (aka *OMS*) extensions sends logs from Diagnostics extension to Log Analytics.
   * Log Analytics deployment is not supported via Azure Resource Manager templates.
+  * The extension is only deployed if WorkspaceId and WorkspaceKey parameters are provided. Implemented using `condition`.
 * Custom script extension disables IE ESC for the jumpbox.
   * Scripts pulled from open URI. Alternatively can use storage account & storage key.
 
 ## Outstanding Items
-* Make OMS extension conditional, install only if WorkspaceId & WorkspaceKey are provided
 * Share Storage Account across VMs
 * Add Azure Automation to turn off VM on schedule
 * Add Recovery Services

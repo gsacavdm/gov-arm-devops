@@ -435,6 +435,7 @@
       ]
     },
     {
+      "condition": "[and(greater(length(parameters('logAnalyticsWorkspaceId')), 0),greater(length(parameters('logAnalyticsWorkspaceKey')), 0))]",
       "apiVersion": "2017-03-30",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmJumpboxName'), '/oms-extension')]",

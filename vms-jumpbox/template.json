@@ -35,19 +35,21 @@
     }
   },
   "variables": {
-    "vmJumpboxName": "[concat(parameters('naming_prefix'),'-vm-jumpbox')]",
-    "vmJumpboxComputerName": "[concat(parameters('naming_prefix'),'vmjbox')]",
-    "vmJumpboxSize": "Standard_DS3_v2",
-    "vmJumpboxOsDiskName": "[concat(variables('vmJumpboxName'),'-osdisk')]",
-    "vmJumpboxOsDiskSize": 128,
-    "vmJumpboxImagePublisher": "MicrosoftWindowsServer",
-    "vmJumpboxImageOffer": "WindowsServer",
-    "vmJumpboxImageSku": "2012-R2-Datacenter",
-    "vmJumpboxImageVersion": "latest",
-    "niJumpboxName": "[concat(parameters('naming_prefix'),'-ni-jumpbox')]",
-    "ipJumpboxName": "[concat(parameters('naming_prefix'),'-ip-jumpbox')]",
-    "ipJumpboxAddress": "10.0.4.4",
-    "pipJumpboxName": "[concat(parameters('naming_prefix'),'-pip-jumpbox')]",
+    "vmJumpbox" : {
+      "name": "[concat(parameters('naming_prefix'),'-vm-jumpbox')]",
+      "computerName": "[concat(parameters('naming_prefix'),'vmjbox')]",
+      "size": "Standard_DS3_v2",
+      "osDiskName": "[concat(parameters('naming_prefix'),'-vm-jumpbox-osdisk')]",
+      "osDiskSize": 128,
+      "imagePublisher": "MicrosoftWindowsServer",
+      "imageOffer": "WindowsServer",
+      "imageSku": "2012-R2-Datacenter",
+      "imageVersion": "latest",
+      "networkInterfaceName": "[concat(parameters('naming_prefix'),'-ni-jumpbox')]",
+      "ipName": "[concat(parameters('naming_prefix'),'-ip-jumpbox')]",
+      "ipAddress": "10.0.4.4",
+      "publicIpName": "[concat(parameters('naming_prefix'),'-pip-jumpbox')]"
+    },
     "saVmDiagnosticsName": "[concat(parameters('naming_prefix'), 'vmdiagnostics')]",
     "wadmetricsresourceid": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name , '/providers/', 'Microsoft.Compute/virtualMachines/')]"
   },
@@ -55,31 +57,31 @@
     {
       "comments": "",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[variables('vmJumpboxName')]",
+      "name": "[variables('vmJumpbox').name]",
       "apiVersion": "2017-03-30",
       "location": "[resourceGroup().location]",
       "properties": {
         "hardwareProfile": {
-          "vmSize": "[variables('vmJumpboxSize')]"
+          "vmSize": "[variables('vmJumpbox').size]"
         },
         "storageProfile": {
           "imageReference": {
-            "publisher": "[variables('vmJumpboxImagePublisher')]",
-            "offer": "[variables('vmJumpboxImageOffer')]",
-            "sku": "[variables('vmJumpboxImageSku')]",
-            "version": "[variables('vmJumpboxImageVersion')]"
+            "publisher": "[variables('vmJumpbox').imagePublisher]",
+            "offer": "[variables('vmJumpbox').imageOffer]",
+            "sku": "[variables('vmJumpbox').imageSku]",
+            "version": "[variables('vmJumpbox').imageVersion]"
           },
           "osDisk": {
             "osType": "Windows",
-            "name": "[variables('vmJumpboxOsDiskName')]",
+            "name": "[variables('vmJumpbox').osDiskName]",
             "createOption": "FromImage",
             "caching": "ReadWrite",
-            "diskSizeGB": "[variables('vmJumpboxOsDiskSize')]"
+            "diskSizeGB": "[variables('vmJumpbox').osDiskSize]"
           },
           "dataDisks": []
         },
         "osProfile": {
-          "computerName": "[variables('vmJumpboxComputerName')]",
+          "computerName": "[variables('vmJumpbox').computerName]",
           "adminUsername": "[parameters('vmAdminUsername')]",
           "adminPassword": "[parameters('vmAdminPassword')]",
           "windowsConfiguration": {
@@ -91,7 +93,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('niJumpboxName'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('vmJumpbox').networkInterfaceName)]"
             }
           ]
         },
@@ -103,26 +105,26 @@
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', variables('niJumpboxName'))]",
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('vmJumpbox').networkInterfaceName)]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('saVmDiagnosticsName'))]"
       ]
     },
     {
       "comments": "",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[variables('niJumpboxName')]",
+      "name": "[variables('vmJumpbox').networkInterfaceName]",
       "apiVersion": "2017-06-01",
       "location": "[resourceGroup().location]",
       "scale": null,
       "properties": {
         "ipConfigurations": [
           {
-            "name": "[variables('ipJumpboxName')]",
+            "name": "[variables('vmJumpbox').ipName]",
             "properties": {
-              "privateIPAddress": "[variables('ipJumpboxAddress')]",
+              "privateIPAddress": "[variables('vmJumpbox').ipAddress]",
               "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('pipJumpboxName'))]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('vmJumpbox').publicIpName)]"
               },
               "subnet": {
                 "id": "[resourceId(subscription().subscriptionId, parameters('networkingResourceGroup'), 'Microsoft.Network/virtualNetworks/subnets', parameters('vnetMainName'), parameters('subnetMgmtName'))]"
@@ -139,13 +141,13 @@
         "primary": true
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/publicIPAddresses', variables('pipJumpboxName'))]"
+        "[resourceId('Microsoft.Network/publicIPAddresses', variables('vmJumpbox').publicIpName)]"
       ]
     },
     {
       "comments": "",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[variables('pipJumpboxName')]",
+      "name": "[variables('vmJumpbox').publicIpName]",
       "apiVersion": "2017-06-01",
       "location": "[resourceGroup().location]",
       "properties": {
@@ -173,7 +175,7 @@
     {
       "apiVersion": "2017-03-30",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmJumpboxName'), '/disable-ie-esc')]",
+      "name": "[concat(variables('vmJumpbox').name, '/disable-ie-esc')]",
       "location": "[resourceGroup().location]",
       "tags": {},
       "properties": {
@@ -189,13 +191,13 @@
         }
       },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmJumpboxName'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmJumpbox').name)]"
       ]
     },
     {
       "comments": "",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmJumpboxName'), '/IaaSDiagnostics')]",
+      "name": "[concat(variables('vmJumpbox').name, '/IaaSDiagnostics')]",
       "apiVersion": "2017-03-30",
       "location": "[resourceGroup().location]",
       "properties": {
@@ -219,7 +221,7 @@
                     "scheduledTransferPeriod": "PT1M"
                   }
                 ],
-                "resourceId": "[concat(variables('wadmetricsresourceid'), variables('vmJumpboxName'))]"
+                "resourceId": "[concat(variables('wadmetricsresourceid'), variables('vmJumpbox').name)]"
               },
               "PerformanceCounters": {
                 "PerformanceCounterConfiguration": [
@@ -431,14 +433,14 @@
         }
       },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmJumpboxName'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmJumpbox').name)]"
       ]
     },
     {
       "condition": "[and(greater(length(parameters('logAnalyticsWorkspaceId')), 0),greater(length(parameters('logAnalyticsWorkspaceKey')), 0))]",
       "apiVersion": "2017-03-30",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmJumpboxName'), '/oms-extension')]",
+      "name": "[concat(variables('vmJumpbox').name, '/oms-extension')]",
       "location": "[resourceGroup().location]",
       "properties": {
         "publisher": "Microsoft.EnterpriseCloud.Monitoring",
@@ -453,7 +455,7 @@
         }
       },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmJumpboxName'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmJumpbox').name)]"
       ]
     }
   ]

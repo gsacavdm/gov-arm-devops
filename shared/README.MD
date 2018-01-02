@@ -25,3 +25,19 @@ All resources are created in the same location as the resource group they are co
   * In Gov: 1.0.3
   * In Commercial: 3.1.0
   * Latest: 4.1.1
+* Job schedule names need to be guids, used guid() function for that.
+* Job schedule start time needs to be in the future.
+
+## Outstanding Items
+* Azure Automation
+  * Remove hardcoded parameters from job schedule
+  * Add Run As Credential
+  * Add job to update AzureRM modules
+  * Decide approach for multiple VMs
+    * 1 job per VM or multiple jobs per VMs
+    * Hardcoded list or use tags
+  * Setup Azure AD service principal & roles
+
+*  Log Analytics
+  * Instantiate via automation job (given lack of ARM support)
+  * Setup OMS solutions

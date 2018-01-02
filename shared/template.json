@@ -11,7 +11,9 @@
     "aaName": "[concat(parameters('naming_prefix'),'-automation')]",
     "rbAutoShutdownName": "[concat(parameters('naming_prefix'),'-rb-autoshutdown')]",
     "schEndworkdayName": "[concat(parameters('naming_prefix'),'-sch-endworkday')]",
-    "jschAutShutdownEndOfWorkdayName": "[concat(parameters('naming_prefix'),'-jsch-endworkday')]"
+    "jschAutoShutdownEndOfWorkdayName": "[guid(concat(parameters('naming_prefix'),'-jsch-endworkday'))]",
+    "autoShutdownVmName": "contoso-vm-jumpbox",
+    "azureEnvironment": "AzureUSGovernment"
   },
   "resources": [
     {
@@ -35,8 +37,9 @@
       "location": "[resourceGroup().location]",
       "properties": {
         "runbookType": "PowerShell",
-        "publishedContentLink": {
-          "uri": "https://github.com/gsacavdm/gov-arm-devops/blob/master/shared/auto-shutdown.ps1"
+        "publishContentLink": {
+          "uri": "https://raw.githubusercontent.com/gsacavdm/gov-arm-devops/master/shared/auto-shutdown.ps1",
+          "version": "1.0.0.0"
         },
         "logVerbose": false,
         "logProgress": false
@@ -52,7 +55,7 @@
       "apiVersion": "2015-10-31",
       "properties": {
         "description": "",
-        "startTime": "2018-01-01T19:00:00-05:00",
+        "startTime": "2018-02-01T19:00:00-05:00",
         "expiryTime": "9999-12-31T18:59:00-05:00",
         "isEnabled": true,
         "interval": 1,
@@ -65,8 +68,7 @@
     {
       "comments": "",
       "type": "Microsoft.Automation/automationAccounts/jobSchedules",
-      "name": "[concat(variables('aaName'), '/', variables('jschAutShutdownEndOfWorkdayName'))]",
-      "jobScheduleId": "ea238d9c-8ed7-4a7e-b70a-2319b4a9139b",
+      "name": "[concat(variables('aaName'), '/', variables('jschAutoShutdownEndOfWorkdayName'))]",
       "apiVersion": "2015-10-31",
       "properties": {
         "runbook": {
@@ -78,12 +80,13 @@
         "parameters": {
           "Subscription": "[subscription().subscriptionId]",
           "ResourceGroup": "[resourceGroup().name]",
-          "VmName":"contoso-vm-jumpbox",
-          "Environment": "AzureUSGovernment"
+          "VmName":"[variables('autoShutdownVmName')]",
+          "Environment": "[variables('azureEnvironment')]"
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Automation/automationAccounts', variables('aaName'))]"
+        "[resourceId('Microsoft.Automation/automationAccounts/runbooks', variables('aaName'), variables('rbAutoShutdownName'))]",
+        "[resourceId('Microsoft.Automation/automationAccounts/schedules', variables('aaName'), variables('schEndworkdayName'))]"
       ]
     }
   ]

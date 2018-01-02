@@ -22,7 +22,8 @@ All resources are created in the same location as the resource group they are co
 ## Other Notes
 * VM Computer Names don't use the prefix given naming constraints.
 * VM `storageProfile.osDisk.ostype` is hardcoded due to dependency on `osProfile.[windows/linux]Configuration`
-* VM `diagnosticsProfile.bootDiagnostics.storageUri` is a reference, don't hardcode it.
+* VM `diagnosticsProfile.bootDiagnostics.storageUri` is a reference implemented via the `reference` function to retreive the storage account's `primaryEndpoints.blob`.
+* VM is deployed in vnet & subnets that are deployed separately, can be on same or different resource group. Implemented using `resourceId(subscriptionId,resourceGroupName,...)`. 
 * Extensions in general can be added at the root level or as child resources of VMs, opted for root level to reduce nesting.
 * Diagnostics extension gathers logs and sends them to storage account.
   * Configuration must include ResourceId.
@@ -41,6 +42,5 @@ All resources are created in the same location as the resource group they are co
 * Add Recovery Services
 * Add Alert rules
 
-* Use `resourceId` and/or `reference` for boot diagnostics storage accounts
 * Convert variables to objects and hardcode variables that are used only once
 * Add support for multiple VMs through `copy` and `copyIndex()`

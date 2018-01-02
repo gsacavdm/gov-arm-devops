@@ -13,6 +13,10 @@
     "vmAdminPassword": {
       "type": "securestring"
     },
+    "networkingResourceGroup": {
+      "type": "string",
+      "defaultValue": "contoso"
+    },
     "vnetMainName": {
       "defaultValue": "contoso-vnet-main",
       "type": "string"
@@ -31,8 +35,6 @@
     }
   },
   "variables": {
-    "vnetMainName": "[parameters('vnetMainName')]",
-    "subnetMgmtName": "[parameters('subnetMgmtName')]",
     "vmJumpboxName": "[concat(parameters('naming_prefix'),'-vm-jumpbox')]",
     "vmJumpboxComputerName": "[concat(parameters('naming_prefix'),'vmjbox')]",
     "vmJumpboxSize": "Standard_DS3_v2",
@@ -123,7 +125,7 @@
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('pipJumpboxName'))]"
               },
               "subnet": {
-                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetMainName'), variables('subnetMgmtName'))]"
+                "id": "[resourceId(subscription().subscriptionId, parameters('networkingResourceGroup'), 'Microsoft.Network/virtualNetworks/subnets', parameters('vnetMainName'), parameters('subnetMgmtName'))]"
               },
               "primary": true,
               "privateIPAddressVersion": "IPv4"

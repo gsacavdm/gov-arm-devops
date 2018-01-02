@@ -36,11 +36,11 @@ All resources are created in the same location as the resource group they are co
 
 ## Outstanding Items
 * Make OMS extension conditional, install only if WorkspaceId & WorkspaceKey are provided
+* Share Storage Account across VMs
 * Add Azure Automation to turn off VM on schedule
 * Add Recovery Services
 * Add Alert rules
 
 * Use `resourceId` and/or `reference` for boot diagnostics storage accounts
-* Add support for resources in different resources groups
 * Convert variables to objects and hardcode variables that are used only once
 * Add support for multiple VMs through `copy` and `copyIndex()`

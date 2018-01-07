@@ -32,7 +32,7 @@ All resources are created in the same location as the resource group they are co
 * Azure Automation
   * Remove hardcoded parameters from job schedule
   * Add Run As Credential
-  * Add job to update AzureRM modules
+  * Add [job to update AzureRM modules](https://github.com/azureautomation/runbooks/blob/master/Utility/ARM/Update-ModulesInAutomationToLatestVersion.ps1)
   * Decide approach for multiple VMs
     * 1 job per VM or multiple jobs per VMs
     * Hardcoded list or use tags

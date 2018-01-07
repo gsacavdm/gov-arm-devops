@@ -9,8 +9,9 @@
     * Management Tier Subnet & NSG
 
 * [Shared](/shared/README.MD)
-  * LogAnalytics
+  * Log Analytics
   * Azure Automation
+  * Key Vault
   
 * [AD](/vms-ad/README.MD)
   * DC 1 VM

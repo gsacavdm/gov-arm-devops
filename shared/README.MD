@@ -25,8 +25,11 @@ All resources are created in the same location as the resource group they are co
   * In Gov: 1.0.3
   * In Commercial: 3.1.0
   * Latest: 4.1.1
-* Job schedule names need to be guids, used guid() function for that.
-* Job schedule start time needs to be in the future.
+* Schedules are tricky
+  * Start time needs to be in the future
+* Job schedules are also tricky
+  * Names need to be guids, used guid() function for that.
+  * They don't do *upsert*, rather they fail if same job schedule exists.
 
 ## Outstanding Items
 * Azure Automation
@@ -37,7 +40,14 @@ All resources are created in the same location as the resource group they are co
     * 1 job per VM or multiple jobs per VMs
     * Hardcoded list or use tags
   * Setup Azure AD service principal & roles
+    1. Create cert in keyvault if it doesn't exist
+    2. Create Azure AD SP if it doesn't exist
+      * `az ad sp create-for-rbac -n sacagov-automation --create-cert --keyvault sacagov-vault --cert contoso`
+    3. Populate the template's parameters
 
 *  Log Analytics
   * Instantiate via automation job (given lack of ARM support)
   * Setup OMS solutions
+
+* Key Vault
+  * Set `enabledForTemplateDeployment` to `true`

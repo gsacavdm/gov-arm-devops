@@ -13,6 +13,8 @@ Sets up the following:
   * Log Analytics (aka OMS) Extension
   * Azure Automation to turn off on schedule (alternative to Schedule which is available in Azure Gov)
 
+* Jumpbox (Linux) VM - see template.linux.json
+
 ## Naming Convention
 This template only has 1 parameter: `naming_prefix`. This parameter is used to autogenerate the names of all resources. For example, for `naming_prefix` of `contoso_` will result in `contoso_vm_jumpbox` and `contoso_nic_jumpbox`.
 
@@ -41,6 +43,15 @@ All resources are created in the same location as the resource group they are co
 * Add Azure Automation to turn off VM on schedule
 * Add Recovery Services
 * Add Alert rules
+
+* Add proper notes for Linux jumpbox and document differences
+  * `osDisk.osType`
+  * `osProfile.linuxConfiguration`
+  * Leveraged existing storage account for diagnostics
+  * Extensions
+    * Different Custom Script Extension
+    * Different Diagnostics Extension - not quite working yet. Deploys fine but warning in portal that requires saving again.
+    * No Log Analytics Extension
 
 * Hardcode variables that are used only once
 * Add support for multiple VMs through `copy` and `copyIndex()`

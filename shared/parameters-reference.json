@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "aaRunAsAppId": {
+      "value": "<appId>"
+    },
+    "aaRunAsTenantId": {
+      "value": "<tenantId>"
+    },
+    "aaRunAsCertThumbprint": {
+      "value": "<thumbprint>"
+    },
+    "aaRunAsCertBase64Value": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/<susbscriptionId>/resourceGroups/<resourceGroupName>/providers/Microsoft.KeyVault/vaults/<vaultName>"
+        },
+        "secretName": "<secretName>"
+      }
+    }
+  }
+}

@@ -14,6 +14,8 @@ Sets up the following:
   * Malware Assessment Solution
   * Upgrade Assessment Solution
 
+* Key Vault
+
 ## Naming Convention
 This template only has 1 parameter: `naming_prefix`. This parameter is used to autogenerate the names of all resources. For example, for `naming_prefix` of `contoso_` will result in `contoso_automation`.
 
@@ -30,6 +32,7 @@ All resources are created in the same location as the resource group they are co
 * Job schedules are also tricky
   * Names need to be guids, used guid() function for that.
   * They don't do *upsert*, rather they fail if same job schedule exists.
+* Run As Certificate and Credential have to be *AzureRunAsX* for the portal to show it correctly and other functionality (for example, *Update Azure Modules*) to work.
 
 ## Outstanding Items
 * Azure Automation
@@ -40,9 +43,9 @@ All resources are created in the same location as the resource group they are co
     * 1 job per VM or multiple jobs per VMs
     * Hardcoded list or use tags
   * Setup Azure AD service principal & roles
-    1. Create cert in keyvault if it doesn't exist
-    2. Create Azure AD SP if it doesn't exist
-      * `az ad sp create-for-rbac -n sacagov-automation --create-cert --keyvault sacagov-vault --cert contoso`
+    1. Create cert in KeyVault if it doesn't exist
+    2. Create Azure AD SP if it doesn't exist. It's automatically granted permissions.
+      * `az ad sp create-for-rbac -n sacagov-automation --create-cert --keyvault sacagov-vault --cert contoso`. * Confirm that this works correctly.
     3. Populate the template's parameters
 
 *  Log Analytics

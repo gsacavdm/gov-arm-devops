@@ -6,23 +6,30 @@
       "defaultValue": "contoso",
       "type": "string"
     },
+    "todayYYYY-MM-DD": {
+      "type": "string",
+      "metadata": {
+        "description": "Today's date, used to set the automation job start date."
+      }
+    },
+    "aaRunAsAppId": {
+      "type": "string"
+    },
+    "aaRunAsTenantId": {
+      "type": "string"
+    },
     "aaRunAsCertThumbprint": {
-      "type": "securestring",
-      "defaultValue": "SOMETHUMBPRINT"
+      "type": "string"
     },
     "aaRunAsCertBase64Value": {
-      "type": "securestring",
-      "defaultValue": "SOMEVALUE"
+      "type": "securestring"
     }
   },
   "variables": {
     "aaName": "[concat(parameters('naming_prefix'),'-automation')]",
-    "aaRunAsName": "[concat(parameters('naming_prefix'),'-aa-runas')]",
-    "aaRunAsAppId": "ffacd0a4-4789-4c4d-b916-4dd7c93feb23",
-    "aaRunAsTenantId": "f3b2ab9d-a3f4-4a44-b9a7-5ae2c11c3692",
-    "aaRunAsCertName": "[concat(parameters('naming_prefix'),'-aa-cert')]",
     "rbAutoShutdownName": "[concat(parameters('naming_prefix'),'-rb-autoshutdown')]",
     "schEndworkdayName": "[concat(parameters('naming_prefix'),'-sch-endworkday')]",
+    "schStartTime": "[concat(parameters('todayYYYY-MM-DD'), 'T19:00:00-05:00')]",
     "jschAutoShutdownEndOfWorkdayName": "[guid(concat(parameters('naming_prefix'),'-jsch-endworkday'))]",
     "autoShutdownVmName": "contoso-vm-jumpbox",
     "azureEnvironment": "AzureUSGovernment"
@@ -67,7 +74,7 @@
       "apiVersion": "2015-10-31",
       "properties": {
         "description": "",
-        "startTime": "2018-02-01T19:00:00-05:00",
+        "startTime": "[variables('schStartTime')]",
         "expiryTime": "9999-12-31T18:59:00-05:00",
         "isEnabled": true,
         "interval": 1,
@@ -104,10 +111,11 @@
     {
       "comments": "",
       "type": "Microsoft.Automation/automationAccounts/certificates",
-      "name": "[concat(variables('aaName'), '/', variables('aaRunAsCertName'))]",
+      "name": "[concat(variables('aaName'), '/AzureRunAsCertificate')]",
       "apiVersion": "2015-10-31",
       "properties": {
-        "base64Value": "[parameters('aaRunAsCertBase64Value')]"
+        "base64Value": "[parameters('aaRunAsCertBase64Value')]",
+        "isExportable": true
       },
       "dependsOn": [
         "[resourceId('Microsoft.Automation/automationAccounts', variables('aaName'))]"
@@ -116,15 +124,15 @@
     {
       "comments": "",
       "type": "Microsoft.Automation/automationAccounts/connections",
-      "name": "[concat(variables('aaName'), '/', variables('aaRunAsName'))]",
+      "name": "[concat(variables('aaName'), '/AzureRunAsConnection')]",
       "apiVersion": "2015-10-31",
       "properties": {
         "connectionType": {
           "name": "AzureServicePrincipal"
         },
         "fieldDefinitionValues": {
-          "ApplicationId": "[variables('aaRunAsAppId')]",
-          "TenantId": "[variables('aaRunAsTenantId')]",
+          "ApplicationId": "[parameters('aaRunAsAppId')]",
+          "TenantId": "[parameters('aaRunAsTenantId')]",
           "CertificateThumbprint": "[parameters('aaRunAsCertThumbprint')]",
           "SubscriptionId": "[subscription().subscriptionId]"
         }

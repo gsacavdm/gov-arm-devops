@@ -1,3 +1,12 @@
+# About
+* Use Visual Studio Code & install Azure Resource Manager Tools
+  * Note: There's lag in intellisense, sometimes you'll get errors that aren't real. For example:
+    * `guid()` isn't recognized by intellisense but it does exist.
+    * Runbook schema is out of date, it complains about missing jobScheduledId.
+* Deploy using: `az group deployment create -n <resource-group-name> -n $(date +%Y%m%d_%H%M%S) --template-file <path-to-template.json> --parameters <optional-path-to-parameters.json>`
+  * add `--parameter todayYYYY-MM-DD=$(date +%Y-%m-%d)` for automation template.
+* Check errors in portal.
+
 # Architecture Overview
 
 * [Networking](/networking/README.MD)

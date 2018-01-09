@@ -25,6 +25,14 @@
       "defaultValue": "contoso-subnet-mgmt",
       "type": "string"
     },
+    "saVmDiagnosticsResourceGroup": {
+      "type": "string",
+      "defaultValue": "contoso"
+    },
+    "saVmDiagnosticsName": {
+      "type": "string",
+      "defaultValue": "contosovmdiagnostics"
+    },
     "logAnalyticsWorkspaceId": {
       "defaultValue": "",
       "type": "string"
@@ -50,7 +58,6 @@
       "ipAddress": "10.0.4.4",
       "publicIpName": "[concat(parameters('naming_prefix'),'-pip-jumpbox')]"
     },
-    "saVmDiagnosticsName": "[concat(parameters('naming_prefix'), 'vmdiagnostics')]",
     "wadmetricsresourceid": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name , '/providers/', 'Microsoft.Compute/virtualMachines/')]"
   },
   "resources": [
@@ -100,13 +107,12 @@
         "diagnosticsProfile": {
           "bootDiagnostics": {
             "enabled": true,
-            "storageUri": "[reference(concat('Microsoft.Storage/storageAccounts/', variables('saVmDiagnosticsName')), '2016-01-01').primaryEndpoints.blob]"
+            "storageUri": "[reference(resourceId(subscription().subscriptionId, parameters('saVmDiagnosticsResourceGroup'), 'Microsoft.Storage/storageAccounts/', parameters('saVmDiagnosticsName')), '2016-01-01').primaryEndpoints.blob]"
           }
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', variables('vmJumpbox').networkInterfaceName)]",
-        "[resourceId('Microsoft.Storage/storageAccounts', variables('saVmDiagnosticsName'))]"
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('vmJumpbox').networkInterfaceName)]"
       ]
     },
     {
@@ -161,21 +167,6 @@
       "dependsOn": []
     },
     {
-      "apiVersion": "2017-06-01",
-      "comments": "",
-      "type": "Microsoft.Storage/storageAccounts",
-      "sku": {
-        "name": "Standard_LRS",
-        "tier": "Standard"
-      },
-      "kind": "Storage",
-      "name": "[variables('saVmDiagnosticsName')]",
-      "location": "[resourceGroup().location]",
-      "tags": {},
-      "properties": {},
-      "dependsOn": []
-    },
-    {
       "apiVersion": "2017-03-30",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmJumpbox').name, '/disable-ie-esc')]",
@@ -209,7 +200,7 @@
         "typeHandlerVersion": "1.9",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "StorageAccount": "[variables('saVmDiagnosticsName')]",
+          "StorageAccount": "[parameters('saVmDiagnosticsName')]",
           "WadCfg": {
             "DiagnosticMonitorConfiguration": {
               "DiagnosticInfrastructureLogs": {
@@ -430,9 +421,9 @@
           }
         },
         "protectedSettings": {
-          "storageAccountName": "[variables('saVmDiagnosticsName')]",
-          "storageAccountKey": "[listKeys(variables('saVmDiagnosticsName'), '2016-01-01').keys[0].value]",
-          "storageAccountEndPoint": "[replace(reference(concat('Microsoft.Storage/storageAccounts/', variables('saVmDiagnosticsName')), '2016-01-01').primaryEndpoints.blob, concat(variables('saVmDiagnosticsName'),'.blob.'), '')]"
+          "storageAccountName": "[parameters('saVmDiagnosticsName')]",
+          "storageAccountKey": "[listKeys(resourceId(subscription().subscriptionId, parameters('saVmDiagnosticsResourceGroup'), 'Microsoft.Storage/storageAccounts/', parameters('saVmDiagnosticsName')), '2016-01-01').keys[0].value]",
+          "storageAccountEndPoint": "[replace(reference(resourceId(subscription().subscriptionId, parameters('saVmDiagnosticsResourceGroup'), 'Microsoft.Storage/storageAccounts/', parameters('saVmDiagnosticsName')), '2016-01-01').primaryEndpoints.blob, concat(parameters('saVmDiagnosticsName'),'.blob.'), '')]"
         }
       },
       "dependsOn": [

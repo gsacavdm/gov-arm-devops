@@ -6,6 +6,7 @@
 * Deploy using: `az group deployment create -n <resource-group-name> -n $(date +%Y%m%d_%H%M%S) --template-file <path-to-template.json> --parameters <optional-path-to-parameters.json>`
   * add `--parameter todayYYYY-MM-DD=$(date +%Y-%m-%d)` for automation template.
 * Check errors in portal.
+* [Azure Resource Manager reference](https://docs.microsoft.com/azure/templates/)
 
 # Architecture Overview
 

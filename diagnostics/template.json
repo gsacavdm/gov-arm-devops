@@ -1,0 +1,54 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "naming_prefix": {
+      "defaultValue": "contoso",
+      "type": "string"
+    },
+    "omsWorkspaceTier": {
+      "defaultValue": "PerNode",
+      "type": "string",
+      "allowedValues": [
+        "Free",
+        "Standalone",
+        "PerNode"
+      ]
+    }
+  },
+  "variables": {
+    "saVmDiagnosticsName": "[concat(parameters('naming_prefix'), 'vmdiagnostics')]",
+    "omsWorkspaceName": "[concat(parameters('naming_prefix'), '-loganalytics')]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2017-06-01",
+      "comments": "",
+      "type": "Microsoft.Storage/storageAccounts",
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "kind": "Storage",
+      "name": "[variables('saVmDiagnosticsName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {},
+      "properties": {},
+      "dependsOn": []
+    },
+    {
+      "name": "[variables('omsWorkspaceName')]",
+      "type": "Microsoft.OperationalInsights/workspaces",
+      "apiVersion": "2015-11-01-preview",
+      "location": "[resourceGroup().location]",
+      "tags": {},
+      "properties": {
+        "sku": {
+          "name": "[parameters('omsWorkspaceTier')]"
+        },
+        "retention": "90"
+      },
+      "resources": []
+    }
+  ]
+}

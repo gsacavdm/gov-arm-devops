@@ -14,7 +14,7 @@
     "aaRunAsCertBase64Value": {
       "reference": {
         "keyVault": {
-          "id": "/subscriptions/<susbscriptionId>/resourceGroups/<resourceGroupName>/providers/Microsoft.KeyVault/vaults/<vaultName>"
+          "id": "/subscriptions/<subscriptionId>/resourceGroups/<resourceGroupName>/providers/Microsoft.KeyVault/vaults/<vaultName>"
         },
         "secretName": "<secretName>"
       }

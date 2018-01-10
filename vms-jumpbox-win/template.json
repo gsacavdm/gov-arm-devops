@@ -15,7 +15,7 @@
     },
     "networkingResourceGroup": {
       "type": "string",
-      "defaultValue": "contoso"
+      "defaultValue": "contoso-network"
     },
     "vnetMainName": {
       "defaultValue": "contoso-vnet-main",
@@ -27,7 +27,7 @@
     },
     "saVmDiagnosticsResourceGroup": {
       "type": "string",
-      "defaultValue": "contoso"
+      "defaultValue": "contoso-diagnostics"
     },
     "saVmDiagnosticsName": {
       "type": "string",

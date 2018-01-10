@@ -45,7 +45,8 @@ All resources are created in the same location as the resource group they are co
   * Setup Azure AD service principal & roles
     1. Create cert in KeyVault if it doesn't exist
     2. Create Azure AD SP if it doesn't exist. It's automatically granted permissions.
-      * `az ad sp create-for-rbac -n sacagov-automation --create-cert --keyvault sacagov-vault --cert contoso`. * Confirm that this works correctly.
+      * `az ad sp create-for-rbac -n contoso-automation --create-cert --keyvault contoso-vault --cert contoso-automation`.
+      * More info on [az ad sp create-for-rbac].(https://docs.microsoft.com/en-us/cli/azure/ad/sp?view=azure-cli-latest#az_ad_sp_create_for_rbac)
     3. Populate the template's parameters
 
 *  Log Analytics

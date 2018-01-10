@@ -3,7 +3,6 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "naming_prefix": {
-      "defaultValue": "contoso",
       "type": "string"
     },
     "vmAdminUserName": {
@@ -15,7 +14,7 @@
     },
     "networkingResourceGroup": {
       "type": "string",
-      "defaultValue": "contoso"
+      "defaultValue": "contoso-network"
     },
     "vnetMainName": {
       "defaultValue": "contoso-vnet-main",
@@ -27,19 +26,19 @@
     },
     "saVmDiagnosticsResourceGroup": {
       "type": "string",
-      "defaultValue": "contoso"
+      "defaultValue": "contoso-diagnostics"
     },
     "saVmDiagnosticsName": {
       "type": "string",
       "defaultValue": "contosovmdiagnostics"
     },
-    "logAnalyticsWorkspaceId": {
-      "defaultValue": "",
+    "omsWorkspaceResourceGroup": {
+      "defaultValue": "contoso-diagnostics",
       "type": "string"
     },
-    "logAnalyticsWorkspaceKey": {
-      "defaultValue": "",
-      "type": "securestring"
+    "omsWorkspaceName": {
+      "defaultValue": "contoso-loganalytics",
+      "type": "string"
     }
   },
   "variables": {
@@ -211,7 +210,6 @@
       ]
     },
     {
-      "condition": "[and(greater(length(parameters('logAnalyticsWorkspaceId')), 0),greater(length(parameters('logAnalyticsWorkspaceKey')), 0))]",
       "apiVersion": "2017-03-30",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmJumpbox').name, '/oms-extension')]",
@@ -222,10 +220,10 @@
         "typeHandlerVersion": "1.0",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "workspaceId": "[parameters('logAnalyticsWorkspaceId')]"
+          "workspaceId": "[reference(resourceId(subscription().subscriptionId, parameters('omsWorkspaceResourceGroup'), 'Microsoft.OperationalInsights/workspaces/', parameters('omsWorkspaceName')), '2015-11-01-preview').customerId]"
         },
         "protectedSettings": {
-          "workspaceKey": "[parameters('logAnalyticsWorkspaceKey')]"
+          "workspaceKey": "[listKeys(resourceId(subscription().subscriptionId, parameters('omsWorkspaceResourceGroup'), 'Microsoft.OperationalInsights/workspaces/', parameters('omsWorkspaceName')), '2015-11-01-preview').primarySharedKey]"
         }
       },
       "dependsOn": [

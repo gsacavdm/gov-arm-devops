@@ -1,4 +1,4 @@
-# Shared PaaS Services Azure Resource Manager Template
+# Automation Azure Resource Manager Template
 
 ## Architecture
 Sets up the following:
@@ -9,12 +9,6 @@ Sets up the following:
   * Azure Run As Connection
   * end-of-work-day Schedule
   * auto-shutdown Runbook
-
-* Log Analytics
-  * Malware Assessment Solution
-  * Upgrade Assessment Solution
-
-* Key Vault
 
 ## Naming Convention
 This template only has 1 parameter: `naming_prefix`. This parameter is used to autogenerate the names of all resources. For example, for `naming_prefix` of `contoso_` will result in `contoso_automation`.
@@ -35,23 +29,15 @@ All resources are created in the same location as the resource group they are co
 * Run As Certificate and Credential have to be *AzureRunAsX* for the portal to show it correctly and other functionality (for example, *Update Azure Modules*) to work.
 
 ## Outstanding Items
-* Azure Automation
-  * Remove hardcoded parameters from job schedule
-  * Add Run As Credential
-  * Add [job to update AzureRM modules](https://github.com/azureautomation/runbooks/blob/master/Utility/ARM/Update-ModulesInAutomationToLatestVersion.ps1)
-  * Decide approach for multiple VMs
-    * 1 job per VM or multiple jobs per VMs
-    * Hardcoded list or use tags
-  * Setup Azure AD service principal & roles
-    1. Create cert in KeyVault if it doesn't exist
-    2. Create Azure AD SP if it doesn't exist. It's automatically granted permissions.
-      * `az ad sp create-for-rbac -n contoso-automation --create-cert --keyvault contoso-vault --cert contoso-automation`.
-      * More info on [az ad sp create-for-rbac].(https://docs.microsoft.com/en-us/cli/azure/ad/sp?view=azure-cli-latest#az_ad_sp_create_for_rbac)
-    3. Populate the template's parameters
-
-*  Log Analytics
-  * Instantiate via automation job (given lack of ARM support)
-  * Setup OMS solutions
-
-* Key Vault
-  * Set `enabledForTemplateDeployment` to `true`
+* Remove hardcoded parameters from job schedule
+* Add Run As Credential
+* Add [job to update AzureRM modules](https://github.com/azureautomation/runbooks/blob/master/Utility/ARM/Update-ModulesInAutomationToLatestVersion.ps1)
+* Decide approach for multiple VMs
+  * 1 job per VM or multiple jobs per VMs
+  * Hardcoded list or use tags
+* Setup Azure AD service principal & roles
+  1. Create cert in KeyVault if it doesn't exist
+  2. Create Azure AD SP if it doesn't exist. It's automatically granted permissions.
+    * `az ad sp create-for-rbac -n contoso-automation --create-cert --keyvault contoso-vault --cert contoso-automation`.
+    * More info on [az ad sp create-for-rbac].(https://docs.microsoft.com/en-us/cli/azure/ad/sp?view=azure-cli-latest#az_ad_sp_create_for_rbac)
+  3. Populate the template's parameters

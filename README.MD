@@ -27,6 +27,9 @@
   
 * [Automation](/automation/README.MD)
   * Azure Automation
+
+* [Windows Jumpbox VM](/vms-jumpbox-win/README.MD)
+* [Linux Jumpbox VM](/vms-jumpbox-linux/README.MD)
   
 * [AD](/vms-ad/README.MD)
   * DC 1 VM
@@ -37,9 +40,6 @@
   * TFS Database VM
   * Jenkins Master VM
   * Jenkins Artifactory VM
-
-* [Windows Jumpbox VM](/vms-jumpbox-win/README.MD)
-* [Linux Jumpbox VM](/vms-jumpbox-linux/README.MD)
 
 * [App](/vms-app/README.MD)
   * Middle-Tier JBoss EAP VM

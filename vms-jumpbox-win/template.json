@@ -43,7 +43,7 @@
     }
   },
   "variables": {
-    "vmJumpbox" : {
+    "vmJumpbox": {
       "name": "[concat(parameters('naming_prefix'),'-vm-jumpbox')]",
       "computerName": "[concat(parameters('naming_prefix'),'vmjbox')]",
       "size": "Standard_DS3_v2",
@@ -67,6 +67,9 @@
       "name": "[variables('vmJumpbox').name]",
       "apiVersion": "2017-03-30",
       "location": "[resourceGroup().location]",
+      "tags": {
+        "Autoshutdown": "yes"
+      },
       "properties": {
         "hardwareProfile": {
           "vmSize": "[variables('vmJumpbox').size]"
@@ -179,7 +182,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/gsacavdm/gov-arm-devops/master/vms-jumpbox/disable-ie-esc.ps1"
+            "https://raw.githubusercontent.com/gsacavdm/gov-arm-devops/master/vms-jumpbox-win/disable-ie-esc.ps1"
           ],
           "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File disable-ie-esc.ps1')]"
         }

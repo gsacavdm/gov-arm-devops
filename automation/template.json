@@ -57,7 +57,7 @@
       "properties": {
         "runbookType": "PowerShell",
         "publishContentLink": {
-          "uri": "https://raw.githubusercontent.com/gsacavdm/gov-arm-devops/master/shared/auto-shutdown.ps1",
+          "uri": "https://raw.githubusercontent.com/gsacavdm/gov-arm-devops/master/automation/auto-shutdown-tagged-vm.ps1",
           "version": "1.0.0.0"
         },
         "logVerbose": false,
@@ -98,8 +98,6 @@
         },
         "parameters": {
           "Subscription": "[subscription().subscriptionId]",
-          "ResourceGroup": "[resourceGroup().name]",
-          "VmName": "[variables('autoShutdownVmName')]",
           "Environment": "[variables('azureEnvironment')]"
         }
       },

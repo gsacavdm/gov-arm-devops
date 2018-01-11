@@ -10,7 +10,7 @@
 
 # Architecture Overview
 
-* [Networking](/networking/README.MD)
+* [Network](/network/README.MD)
   * Main VNet
     * DMZ Subnet & NSG
     * Middle Tier Subnet & NSG
@@ -18,10 +18,15 @@
     * Data Tier Subnet & NSG
     * Management Tier Subnet & NSG
 
-* [Shared](/shared/README.MD)
+* [Diagnostics](/diagnostics/README.MD)
+  * Diagnostics Storage Account
   * Log Analytics
-  * Azure Automation
+
+* [Secrets](/secrets/README.MD)
   * Key Vault
+  
+* [Automation](/automation/README.MD)
+  * Azure Automation
   
 * [AD](/vms-ad/README.MD)
   * DC 1 VM
@@ -33,9 +38,10 @@
   * Jenkins Master VM
   * Jenkins Artifactory VM
 
-* [Jumpbox](/vms-jumpbox/README.MD)
+* [Windows Jumpbox VM](/vms-jumpbox-win/README.MD)
+* [Linux Jumpbox VM](/vms-jumpbox-linux/README.MD)
 
-* [App4](/vms-app4/README.MD)
+* [App](/vms-app/README.MD)
   * Middle-Tier JBoss EAP VM
   * Oracle Database VM
 
@@ -46,4 +52,4 @@
   * Diagnostics extension
   * Log Analytics (aka *OMS*) extension
   * Custom script extension
-* Load Balancers - To be used on App4 when a second Middle-Tier JBoss EAP VM is added
+* Load Balancers - To be used on App when a second Middle-Tier JBoss EAP VM is added

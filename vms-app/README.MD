@@ -1,4 +1,4 @@
-# App 4 Azure Resource Manager Template
+# App Azure Resource Manager Template
 
 ## Architecture
 Sets up the following:

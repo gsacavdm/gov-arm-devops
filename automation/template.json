@@ -30,8 +30,7 @@
     "rbAutoShutdownName": "[concat(parameters('naming_prefix'),'-rb-autoshutdown')]",
     "schEndworkdayName": "[concat(parameters('naming_prefix'),'-sch-endworkday')]",
     "schStartTime": "[concat(parameters('todayYYYY-MM-DD'), 'T19:00:00-05:00')]",
-    "jschAutoShutdownEndOfWorkdayName": "[guid(concat(parameters('naming_prefix'),'-jsch-endworkday'))]",
-    "autoShutdownVmName": "contoso-vm-jumpbox",
+    "jschAutoShutdownEndOfWorkdayName": "[guid(parameters('naming_prefix'),'-jsch-endworkday-', deployment().name)]",
     "azureEnvironment": "AzureUSGovernment"
   },
   "resources": [

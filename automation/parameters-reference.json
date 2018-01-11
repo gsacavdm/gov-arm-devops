@@ -14,9 +14,9 @@
     "aaRunAsCertBase64Value": {
       "reference": {
         "keyVault": {
-          "id": "/subscriptions/<subscriptionId>/resourceGroups/<resourceGroupName>/providers/Microsoft.KeyVault/vaults/<vaultName>"
+          "id": "/subscriptions/<subscriptionId>/resourceGroups/contoso-secrets/providers/Microsoft.KeyVault/vaults/contoso-vault"
         },
-        "secretName": "<secretName>"
+        "secretName": "contoso-automation"
       }
     }
   }

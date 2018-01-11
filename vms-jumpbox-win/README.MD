@@ -2,7 +2,7 @@
 
 ## Architecture
 Sets up the following:
-* Jumpbox VM
+* Windows Jumpbox VM
   * VM
     * OS Disk
   * Network Interfaces
@@ -13,13 +13,27 @@ Sets up the following:
   * Log Analytics (aka OMS) Extension
   * Azure Automation to turn off on schedule (alternative to Schedule which is available in Azure Gov)
 
-* Jumpbox (Linux) VM - see template.linux.json
-
 ## Naming Convention
 This template only has 1 parameter: `naming_prefix`. This parameter is used to autogenerate the names of all resources. For example, for `naming_prefix` of `contoso_` will result in `contoso_vm_jumpbox` and `contoso_nic_jumpbox`.
 
 ## Assumptions
 All resources are created in the same location as the resource group they are contained in.
+
+## Instructions
+1. Create a resource group for your jumpboxes if you don't already have one
+
+    `az group create -n contoso-jumpboxes -l usgovvirginia`
+
+1. Deploy the template
+
+    `az group deployment create -g contoso-jumpboxes -n $(date +%Y%m%d_%H%M%S) --template-file vms-jumpbox-win/template.json --parameters naming_prefix=winjumpbox1`
+
+1. Once that completes, you can:
+
+    * RDP into the VM
+    * Got to Log Analytics and see telemetry for this VM
+    * Use Storage Explorer to query the diagnostics metrics in the diagnostics storage account
+    * Wait for the automation job to kick in and automatically turn off the VM at the end of the day 
 
 ## Other Notes
 * VM Computer Names don't use the prefix given naming constraints.
@@ -39,19 +53,11 @@ All resources are created in the same location as the resource group they are co
   * Scripts pulled from open URI. Alternatively can use storage account & storage key.
 
 ## Outstanding Items
-* Share Storage Account across VMs
-* Add Azure Automation to turn off VM on schedule
 * Add Recovery Services
 * Add Alert rules
 
 * Add proper notes for Linux jumpbox and document differences
-  * `osDisk.osType`
-  * `osProfile.linuxConfiguration`
-  * Leveraged existing storage account for diagnostics
-  * Extensions
-    * Different Custom Script Extension
-    * Different Diagnostics Extension - not quite working yet. Deploys fine but warning in portal that requires saving again.
-    * No Log Analytics Extension
+    * `osDisk.osType`
+    * `osProfile.linuxConfiguration`
 
-* Hardcode variables that are used only once
 * Add support for multiple VMs through `copy` and `copyIndex()`

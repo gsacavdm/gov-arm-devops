@@ -25,6 +25,6 @@ foreach ($vm in $vms) {
     Stop-AzureRmVM `
 		-Force `
 		-Name $vm.ResourceName `
-		-ResourceGroupName $vm.ResourceGroupName
+		-ResourceGroupName $vm.ResourceGroupName `
         -AsJob
 }

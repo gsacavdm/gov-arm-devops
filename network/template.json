@@ -2,29 +2,29 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "naming_prefix": {
+    "namingPrefix": {
       "defaultValue": "contoso",
       "type": "string"
     }
   },
   "variables": {
-    "vnetMainName": "[concat(parameters('naming_prefix'),'-vnet-main')]",
+    "vnetMainName": "[concat(parameters('namingPrefix'),'-vnet-main')]",
     "vnetMainAddressPrefix": "10.0.0.0/16",
-    "subnetDmzName": "[concat(parameters('naming_prefix'),'-subnet-dmz')]",
+    "subnetDmzName": "[concat(parameters('namingPrefix'),'-subnet-dmz')]",
     "subnetDmzAddressPrefix": "10.0.0.0/24",
-    "nsgDmzName": "[concat(parameters('naming_prefix'),'-nsg-dmz')]",
-    "subnetMiddleTierName": "[concat(parameters('naming_prefix'),'-subnet-mt')]",
+    "nsgDmzName": "[concat(parameters('namingPrefix'),'-nsg-dmz')]",
+    "subnetMiddleTierName": "[concat(parameters('namingPrefix'),'-subnet-mt')]",
     "subnetMiddleTierAddressPrefix": "10.0.1.0/24",
-    "nsgMiddleTierName": "[concat(parameters('naming_prefix'),'-nsg-mt')]",
-    "subnetDataTierName": "[concat(parameters('naming_prefix'),'-subnet-dt')]",
+    "nsgMiddleTierName": "[concat(parameters('namingPrefix'),'-nsg-mt')]",
+    "subnetDataTierName": "[concat(parameters('namingPrefix'),'-subnet-dt')]",
     "subnetDataTierAddressPrefix": "10.0.2.0/24",
-    "nsgDataTierName": "[concat(parameters('naming_prefix'),'-nsg-dt')]",
-    "subnetAlmName": "[concat(parameters('naming_prefix'),'-subnet-alm')]",
+    "nsgDataTierName": "[concat(parameters('namingPrefix'),'-nsg-dt')]",
+    "subnetAlmName": "[concat(parameters('namingPrefix'),'-subnet-alm')]",
     "subnetAlmAddressPrefix": "10.0.3.0/24",
-    "nsgAlmName": "[concat(parameters('naming_prefix'),'-nsg-alm')]",
-    "subnetManagementName": "[concat(parameters('naming_prefix'),'-subnet-mgmt')]",
+    "nsgAlmName": "[concat(parameters('namingPrefix'),'-nsg-alm')]",
+    "subnetManagementName": "[concat(parameters('namingPrefix'),'-subnet-mgmt')]",
     "subnetManagementAddressPrefix": "10.0.4.0/24",
-    "nsgManagementName": "[concat(parameters('naming_prefix'),'-nsg-mgmt')]",
+    "nsgManagementName": "[concat(parameters('namingPrefix'),'-nsg-mgmt')]",
     "subnetGatewayName": "GatewaySubnet",
     "subnetGatewayAddressPrefix": "10.0.5.0/27"
   },

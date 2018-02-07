@@ -2,7 +2,7 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "naming_prefix": {
+    "namingPrefix": {
       "defaultValue": "contoso",
       "type": "string"
     },
@@ -44,19 +44,19 @@
   },
   "variables": {
     "vmJumpbox": {
-      "name": "[concat(parameters('naming_prefix'),'-vm-jumpbox')]",
-      "computerName": "[concat(parameters('naming_prefix'),'vmjbox')]",
+      "name": "[concat(parameters('namingPrefix'),'-vm-jumpbox')]",
+      "computerName": "[concat(parameters('namingPrefix'),'vmjbox')]",
       "size": "Standard_DS3_v2",
-      "osDiskName": "[concat(parameters('naming_prefix'),'-vm-jumpbox-osdisk')]",
+      "osDiskName": "[concat(parameters('namingPrefix'),'-vm-jumpbox-osdisk')]",
       "osDiskSize": 128,
       "imagePublisher": "MicrosoftWindowsServer",
       "imageOffer": "WindowsServer",
       "imageSku": "2012-R2-Datacenter",
       "imageVersion": "latest",
-      "networkInterfaceName": "[concat(parameters('naming_prefix'),'-ni-jumpbox')]",
-      "ipName": "[concat(parameters('naming_prefix'),'-ip-jumpbox')]",
+      "networkInterfaceName": "[concat(parameters('namingPrefix'),'-ni-jumpbox')]",
+      "ipName": "[concat(parameters('namingPrefix'),'-ip-jumpbox')]",
       "ipAddress": "10.0.4.4",
-      "publicIpName": "[concat(parameters('naming_prefix'),'-pip-jumpbox')]"
+      "publicIpName": "[concat(parameters('namingPrefix'),'-pip-jumpbox')]"
     },
     "wadmetricsresourceid": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name , '/providers/', 'Microsoft.Compute/virtualMachines/')]"
   },

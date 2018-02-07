@@ -16,7 +16,7 @@ Sets up the following:
 * JBOSS EAP Middle Tier VM
   
 ## Naming Convention
-This template only has 1 parameter: `naming_prefix`. This parameter is used to autogenerate the names of all resources. For example, for `naming_prefix` of `contoso_app4_` will result in `contoso_app4_vm_db` and `contoso_app4_vm_mt`.
+This template only has 1 parameter: `namingPrefix`. This parameter is used to autogenerate the names of all resources. For example, for `namingPrefix` of `contoso_app4_` will result in `contoso_app4_vm_db` and `contoso_app4_vm_mt`.
 
 ## Assumptions
 All resources are created in the same location as the resource group they are contained in.

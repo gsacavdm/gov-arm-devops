@@ -2,7 +2,7 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "naming_prefix": {
+    "namingPrefix": {
       "defaultValue": "contoso",
       "type": "string"
     },
@@ -17,8 +17,8 @@
     }
   },
   "variables": {
-    "saVmDiagnosticsName": "[concat(parameters('naming_prefix'), 'vmdiagnostics')]",
-    "omsWorkspaceName": "[concat(parameters('naming_prefix'), '-loganalytics')]",
+    "saVmDiagnosticsName": "[concat(parameters('namingPrefix'), 'vmdiagnostics')]",
+    "omsWorkspaceName": "[concat(parameters('namingPrefix'), '-loganalytics')]",
     "AntiMalware": {
       "Name": "[concat('AntiMalware', '(', variables('omsWorkspaceName'), ')')]",
       "GalleryName": "AntiMalware"

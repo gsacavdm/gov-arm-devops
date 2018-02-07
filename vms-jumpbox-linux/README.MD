@@ -14,7 +14,7 @@ Sets up the following:
     * Azure Automation to turn off on schedule (alternative to Schedule which is available in Azure Gov)
 
 ## Naming Convention
-This template only has 1 parameter: `naming_prefix`. This parameter is used to autogenerate the names of all resources. For example, for `naming_prefix` of `contoso_` will result in `contoso_vm_jumpbox` and `contoso_nic_jumpbox`.
+This template only has 1 parameter: `namingPrefix`. This parameter is used to autogenerate the names of all resources. For example, for `namingPrefix` of `contoso_` will result in `contoso_vm_jumpbox` and `contoso_nic_jumpbox`.
 
 ## Assumptions
 All resources are created in the same location as the resource group they are contained in.
@@ -26,7 +26,7 @@ All resources are created in the same location as the resource group they are co
 
 1. Deploy the template
 
-    `az group deployment create -g contoso-jumpboxes -n $(date +%Y%m%d_%H%M%S) --template-file vms-jumpbox-linux/template.json --parameters naming_prefix=linuxjumpbox1`
+    `az group deployment create -g contoso-jumpboxes -n $(date +%Y%m%d_%H%M%S) --template-file vms-jumpbox-linux/template.json --parameters namingPrefix=linuxjumpbox1`
 
 1. Once that completes, you can:
 
